@@ -14,6 +14,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
   'http://localhost:5000',
+  'https://abs-atv.pages.dev',
 ];
 
 // Add Render frontend if specified
