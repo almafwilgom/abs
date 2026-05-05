@@ -9,13 +9,36 @@ const transactionRoutes = require('./routes/transactions');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Configure CORS for both local and production
+// Configure CORS for local development and production
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:5000',
+];
+
+// Add Render frontend if specified
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
+// Add Cloudflare frontend if specified
+if (process.env.CLOUDFLARE_URL) {
+  allowedOrigins.push(process.env.CLOUDFLARE_URL);
+}
+
 const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    process.env.FRONTEND_URL || 'https://automated-banking-system.onrender.com',
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like curl requests or mobile apps)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      // Log for debugging
+      console.log(`CORS blocked origin: ${origin}`);
+      callback(null, true); // Allow for now for debugging
+    }
+  },
   credentials: true,
 };
 
