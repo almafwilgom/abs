@@ -31,8 +31,7 @@ if (process.env.CLOUDFLARE_URL) {
 }
 
 const corsOptions = {
-  origin: true,
-  credentials: true,
+  origin: '*',
   optionsSuccessStatus: 200
 };
 
