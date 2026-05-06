@@ -35,8 +35,16 @@ export default function Register() {
     setCreatedAccount(null);
     setCopied(false);
 
+    const cleanForm = {
+      ...form,
+      name: form.name.trim(),
+      email: form.email.trim(),
+      phone: form.phone.trim(),
+      pin: form.pin.trim()
+    };
+
     try {
-      const res = await api.post('/auth/register', form);
+      const res = await api.post('/auth/register', cleanForm);
       setCreatedAccount({
         name: form.name,
         email: form.email,
@@ -44,9 +52,18 @@ export default function Register() {
         accountNumber: res.data.account_number,
       });
     } catch (err) {
-      const msg = err.response?.data?.error || err.message || 'Registration failed.';
-      setError(msg);
       console.error('Registration error:', err);
+      let msg = 'Registration failed.';
+      
+      if (err.response) {
+        msg = err.response.data?.error || `Server error: ${err.response.status}`;
+      } else if (err.request) {
+        msg = 'No response from server. The backend might be starting up or down.';
+      } else {
+        msg = err.message;
+      }
+      
+      setError(msg);
     }
   };
 
@@ -197,11 +214,16 @@ export default function Register() {
           </p>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-center gap-2">
-          <div className={`w-2 h-2 rounded-full ${status === 'Online' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : status === 'Offline' ? 'bg-red-500' : 'bg-amber-500 animate-pulse'}`}></div>
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Backend: {status}
-          </span>
+        <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col items-center justify-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className={`w-2 h-2 rounded-full ${status === 'Online' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : status === 'Offline' ? 'bg-red-500' : 'bg-amber-500 animate-pulse'}`}></div>
+            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Backend: {status}
+            </span>
+          </div>
+          <div className="text-[10px] text-gray-400 font-mono mt-1 text-center max-w-[200px]">
+            NOTE: DB is ephemeral on Render Free. Data resets on every update.
+          </div>
         </div>
       </div>
 

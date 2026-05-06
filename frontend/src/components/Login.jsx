@@ -28,8 +28,15 @@ export default function Login({ setToken, setUser }) {
     e.preventDefault();
     setError('');
 
+    // Clean inputs for mobile (trim spaces)
+    const cleanAccountNumber = account.trim();
+    const cleanPin = pin.trim();
+
     try {
-      const res = await api.post('/auth/login', { account_number: account, pin });
+      const res = await api.post('/auth/login', { 
+        account_number: cleanAccountNumber, 
+        pin: cleanPin 
+      });
       setToken(res.data.token);
       setUser(res.data.user);
       navigate('/dashboard');
@@ -137,8 +144,8 @@ export default function Login({ setToken, setUser }) {
               Backend: {status}
             </span>
           </div>
-          <div className="text-[10px] text-gray-400 font-mono">
-            V2.1.0-FIXED-PROD
+          <div className="text-[10px] text-gray-400 font-mono mt-2 text-center max-w-[200px]">
+            NOTE: DB is ephemeral on Render Free. Data resets on every update.
           </div>
         </div>
       </div>
