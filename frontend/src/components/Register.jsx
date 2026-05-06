@@ -30,7 +30,9 @@ export default function Register() {
         accountNumber: res.data.account_number,
       });
     } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed.');
+      const msg = err.response?.data?.error || err.message || 'Registration failed.';
+      setError(msg);
+      console.error('Registration error:', err);
     }
   };
 

@@ -14,6 +14,9 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
   'http://localhost:5000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:5000',
   'https://abs-atv.pages.dev',
 ];
 
@@ -28,19 +31,9 @@ if (process.env.CLOUDFLARE_URL) {
 }
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like curl requests or mobile apps)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      // Log for debugging
-      console.log(`CORS blocked origin: ${origin}`);
-      callback(null, true); // Allow for now for debugging
-    }
-  },
+  origin: true,
   credentials: true,
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
@@ -52,6 +45,16 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error('Unhandled Error:', err);
+    res.status(500).json({ 
+        error: 'Internal Server Error', 
+        message: err.message,
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
+});
 
 // Export for testing
 module.exports = app;

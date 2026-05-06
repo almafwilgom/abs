@@ -20,7 +20,9 @@ export default function Login({ setToken, setUser }) {
       setUser(res.data.user);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed.');
+      const msg = err.response?.data?.error || err.message || 'Login failed.';
+      setError(msg);
+      console.error('Login error:', err);
     }
   };
 
