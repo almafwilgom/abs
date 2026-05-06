@@ -22,13 +22,10 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
-    
     const isAllowed = allowedOrigins.some(ao => origin.startsWith(ao)) || 
                      origin.includes('pages.dev') || 
                      origin.includes('onrender.com');
-                     
     if (isAllowed) {
       callback(null, true);
     } else {
@@ -38,6 +35,14 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 200
 };
+
+// Handle Private Network Access preflights
+app.use((req, res, next) => {
+  if (req.headers['access-control-request-private-network']) {
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
+  }
+  next();
+});
 
 app.use(cors(corsOptions));
 app.use(express.json());

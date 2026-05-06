@@ -18,9 +18,10 @@ const getBaseURL = () => {
   }
   
   // If we're on a local IP (phone testing), try to hit the computer's backend
-  // This assumes the backend is running on port 5000 on the same machine
-  if (/^(\d{1,3}\.){3}\d{1,3}$/.test(hostname)) {
-    return `http://${hostname}:5000/api`;
+  // But ONLY if we're not on HTTPS, because browsers block HTTPS -> HTTP local requests
+  if (/^(\d{1,3}\.){3}\d{1,3}$/.test(hostname) || hostname === 'localhost') {
+    const protocol = window.location.protocol;
+    return `${protocol}//${hostname}:5000/api`;
   }
 
   return 'http://localhost:5000/api';
