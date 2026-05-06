@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Lock, CreditCard, Eye, EyeOff } from 'lucide-react';
 import api from '../api';
@@ -34,9 +34,21 @@ export default function Login({ setToken, setUser }) {
       setUser(res.data.user);
       navigate('/dashboard');
     } catch (err) {
-      const msg = err.response?.data?.error || err.message || 'Login failed.';
-      setError(msg);
       console.error('Login error:', err);
+      let msg = 'Login failed.';
+      
+      if (err.response) {
+        // The server responded with a status code outside the 2xx range
+        msg = err.response.data?.error || `Server error: ${err.response.status}`;
+      } else if (err.request) {
+        // The request was made but no response was received
+        msg = 'No response from server. The backend might be starting up (cold start) or down.';
+      } else {
+        // Something happened in setting up the request
+        msg = err.message;
+      }
+      
+      setError(msg);
     }
   };
 
