@@ -20,18 +20,22 @@ const allowedOrigins = [
   'https://abs-atv.pages.dev',
 ];
 
-// Add Render frontend if specified
-if (process.env.FRONTEND_URL) {
-  allowedOrigins.push(process.env.FRONTEND_URL);
-}
-
-// Add Cloudflare frontend if specified
-if (process.env.CLOUDFLARE_URL) {
-  allowedOrigins.push(process.env.CLOUDFLARE_URL);
-}
-
 const corsOptions = {
-  origin: '*',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    
+    const isAllowed = allowedOrigins.some(ao => origin.startsWith(ao)) || 
+                     origin.includes('pages.dev') || 
+                     origin.includes('onrender.com');
+                     
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
   optionsSuccessStatus: 200
 };
 
