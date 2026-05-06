@@ -126,11 +126,16 @@ export default function Login({ setToken, setUser }) {
           </p>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-center gap-2">
-          <div className={`w-2 h-2 rounded-full ${status === 'Online' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : status === 'Offline' ? 'bg-red-500' : 'bg-amber-500 animate-pulse'}`}></div>
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Backend: {status}
-          </span>
+        <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col items-center justify-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className={`w-2 h-2 rounded-full ${status === 'Online' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : status === 'Offline' ? 'bg-red-500' : 'bg-amber-500 animate-pulse'}`}></div>
+            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Backend: {status}
+            </span>
+          </div>
+          <div className="text-[10px] text-gray-400 font-mono">
+            V2.1.0-FIXED-PROD
+          </div>
         </div>
       </div>
     </div>
