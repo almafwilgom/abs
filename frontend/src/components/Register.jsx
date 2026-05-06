@@ -9,7 +9,21 @@ export default function Register() {
   const [createdAccount, setCreatedAccount] = useState(null);
   const [copied, setCopied] = useState(false);
   const [showPin, setShowPin] = useState(false);
+  const [status, setStatus] = useState('Checking...');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkStatus = async () => {
+      try {
+        await api.get('/');
+        setStatus('Online');
+      } catch (err) {
+        setStatus('Offline');
+        console.error('Status check failed:', err);
+      }
+    };
+    checkStatus();
+  }, []);
 
   const updateForm = (field, value) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -171,6 +185,13 @@ export default function Register() {
             Already have an account?{' '}
             <Link to="/login" className="text-indigo-600 hover:underline font-medium">Log in</Link>
           </p>
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-center gap-2">
+          <div className={`w-2 h-2 rounded-full ${status === 'Online' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : status === 'Offline' ? 'bg-red-500' : 'bg-amber-500 animate-pulse'}`}></div>
+          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Backend: {status}
+          </span>
         </div>
       </div>
 
