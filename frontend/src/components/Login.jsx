@@ -70,12 +70,14 @@ export default function Login({ setToken, setUser }) {
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Account Number</label>
+            <label htmlFor="account-number" className="block text-sm font-medium text-gray-700 mb-1">Account Number</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <CreditCard className="w-5 h-5 text-gray-400" />
               </div>
               <input
+                id="account-number"
+                name="account_number"
                 type="text"
                 required
                 value={account}
@@ -87,12 +89,14 @@ export default function Login({ setToken, setUser }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">PIN</label>
+            <label htmlFor="pin" className="block text-sm font-medium text-gray-700 mb-1">PIN</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Lock className="w-5 h-5 text-gray-400" />
               </div>
               <input
+                id="pin"
+                name="pin"
                 type={showPin ? 'text' : 'password'}
                 required
                 value={pin}

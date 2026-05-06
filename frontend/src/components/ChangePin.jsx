@@ -18,6 +18,7 @@ function PinInput({ id, label, value, onChange, visible, onToggle, placeholder }
         </div>
         <input
           id={id}
+          name={id}
           type={visible ? 'text' : 'password'}
           inputMode="numeric"
           required

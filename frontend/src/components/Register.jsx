@@ -79,12 +79,14 @@ export default function Register() {
         {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-6 text-sm">{error}</div>}
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <User className="w-5 h-5 text-gray-400" />
               </div>
               <input
+                id="name"
+                name="name"
                 type="text"
                 required
                 value={form.name}
@@ -96,12 +98,14 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Mail className="w-5 h-5 text-gray-400" />
               </div>
               <input
+                id="email"
+                name="email"
                 type="email"
                 required
                 value={form.email}
@@ -113,12 +117,14 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Phone className="w-5 h-5 text-gray-400" />
               </div>
               <input
+                id="phone"
+                name="phone"
                 type="tel"
                 required
                 value={form.phone}
@@ -133,12 +139,14 @@ export default function Register() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">PIN</label>
+              <label htmlFor="reg-pin" className="block text-sm font-medium text-gray-700 mb-1">PIN</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock className="w-5 h-5 text-gray-400" />
                 </div>
                 <input
+                  id="reg-pin"
+                  name="pin"
                   type={showPin ? 'text' : 'password'}
                   required
                   value={form.pin}
@@ -158,10 +166,12 @@ export default function Register() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Initial Deposit (NGN)</label>
+              <label htmlFor="initial-deposit" className="block text-sm font-medium text-gray-700 mb-1">Initial Deposit (NGN)</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 font-semibold">NGN</div>
                 <input
+                  id="initial-deposit"
+                  name="initial_deposit"
                   type="number"
                   min="0"
                   step="0.01"

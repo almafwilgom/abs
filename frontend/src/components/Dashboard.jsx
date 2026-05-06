@@ -174,10 +174,12 @@ export default function Dashboard({ user, setUser, setToken }) {
 
             <form onSubmit={handleTransaction}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Amount (NGN)</label>
+                <label htmlFor="tx-amount" className="block text-sm font-medium text-gray-700 mb-1">Amount (NGN)</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 font-semibold">NGN</div>
                   <input
+                    id="tx-amount"
+                    name="amount"
                     type="number"
                     min="0.01"
                     step="0.01"
