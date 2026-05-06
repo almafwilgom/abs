@@ -59,10 +59,12 @@ module.exports = {
         try {
             const stmt = db.prepare(sql);
             const result = stmt.run(...params);
+            console.log(`DB RUN Success: ${sql.substring(0, 50)}...`);
             if (callback) {
                 callback.call({ lastID: result.lastInsertRowid }, null);
             }
         } catch (err) {
+            console.error(`DB RUN Error [${sql.substring(0, 50)}...]:`, err);
             if (callback) callback(err);
         }
     },
@@ -76,6 +78,7 @@ module.exports = {
             const row = stmt.get(...params);
             if (callback) callback(null, row);
         } catch (err) {
+            console.error(`DB GET Error [${sql.substring(0, 50)}...]:`, err);
             if (callback) callback(err);
         }
     },
@@ -89,6 +92,7 @@ module.exports = {
             const rows = stmt.all(...params);
             if (callback) callback(null, rows);
         } catch (err) {
+            console.error(`DB ALL Error [${sql.substring(0, 50)}...]:`, err);
             if (callback) callback(err);
         }
     },

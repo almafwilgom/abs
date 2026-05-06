@@ -73,7 +73,12 @@ export default function Login({ setToken, setUser }) {
           <p className="text-gray-500 mt-2">Automated Banking System</p>
         </div>
 
-        {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-6 text-sm">{error}</div>}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl mb-6 text-sm">
+            <p className="font-bold mb-1">Error:</p>
+            <p>{error}</p>
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div>

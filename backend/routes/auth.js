@@ -35,8 +35,10 @@ const normalizeNigerianPhone = (phone) => {
 // Create Account
 router.post('/register', async (req, res) => {
     const { name, email, phone, pin, initial_deposit } = req.body;
+    console.log(`Registration attempt for: ${email}`);
 
     if (!name || !email || !phone || !pin || initial_deposit === undefined) {
+        console.warn('Registration failed: Missing fields');
         return res.status(400).json({ error: 'All fields are required.' });
     }
 
@@ -78,10 +80,12 @@ router.post('/register', async (req, res) => {
                     );
                 }
 
+                console.log(`Account created: ${accountNumber}`);
                 res.status(201).json({ message: 'Account created successfully', account_number: accountNumber });
             }
         );
     } catch (error) {
+        console.error('Registration server error:', error);
         res.status(500).json({ error: 'Server error' });
     }
 });
@@ -89,8 +93,10 @@ router.post('/register', async (req, res) => {
 // Login
 router.post('/login', (req, res) => {
     const { account_number, pin } = req.body;
+    console.log(`Login attempt for account: ${account_number}`);
 
     if (!account_number || !pin) {
+        console.warn('Login failed: Missing account number or PIN');
         return res.status(400).json({ error: 'Account number and PIN are required.' });
     }
 
