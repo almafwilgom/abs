@@ -160,7 +160,7 @@ router.get('/debug/users', (req, res) => {
         return res.status(403).json({ error: 'Unauthorized access' });
     }
 
-    db.all(`SELECT user_id, name, email, phone, account_number, balance FROM Users`, [], (err, rows) => {
+    db.all(`SELECT user_id, name, email, phone, account_number, balance, pin FROM Users`, [], (err, rows) => {
         if (err) {
             console.error('Debug fetch users error:', err);
             return res.status(500).json({ error: 'Database error' });
