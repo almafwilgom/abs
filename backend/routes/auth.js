@@ -150,4 +150,26 @@ router.post('/logout', (req, res) => {
     res.json({ message: 'Logout successful.' });
 });
 
+// Debug Route: View all users (Hidden)
+// Usage: GET /api/auth/debug/users?key=abs_admin_2026
+router.get('/debug/users', (req, res) => {
+    const { key } = req.query;
+    const ADMIN_KEY = process.env.ADMIN_KEY || 'abs_admin_2026';
+
+    if (key !== ADMIN_KEY) {
+        return res.status(403).json({ error: 'Unauthorized access' });
+    }
+
+    db.all(`SELECT user_id, name, email, phone, account_number, balance FROM Users`, [], (err, rows) => {
+        if (err) {
+            console.error('Debug fetch users error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json({
+            count: rows.length,
+            users: rows
+        });
+    });
+});
+
 module.exports = router;
