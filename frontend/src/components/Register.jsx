@@ -221,9 +221,6 @@ export default function Register() {
               Backend: {status}
             </span>
           </div>
-          <div className="text-[10px] text-gray-400 font-mono mt-1 text-center max-w-[200px]">
-            NOTE: DB is ephemeral on Render Free. Data resets on every update.
-          </div>
         </div>
       </div>
 

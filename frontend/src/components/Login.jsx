@@ -61,9 +61,7 @@ export default function Login({ setToken, setUser }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-4">
-      <div className="mb-4 bg-red-600 text-white px-6 py-2 rounded-full font-bold animate-bounce shadow-lg">
-        DEBUG VERSION 2.0 - CONNECTED TO RENDER
-      </div>
+
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -148,9 +146,6 @@ export default function Login({ setToken, setUser }) {
             <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
               Backend: {status}
             </span>
-          </div>
-          <div className="text-[10px] text-gray-400 font-mono mt-2 text-center max-w-[200px]">
-            NOTE: DB is ephemeral on Render Free. Data resets on every update.
           </div>
         </div>
       </div>
