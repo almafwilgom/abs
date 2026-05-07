@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import Layout from './components/Layout';
+import AdminPortal from './components/AdminPortal';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -30,6 +31,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/login" element={!token ? <Login setToken={setToken} setUser={setUser} /> : <Navigate to="/dashboard" />} />
         <Route path="/register" element={!token ? <Register /> : <Navigate to="/dashboard" />} />
+        <Route path="/admin-portal" element={<AdminPortal />} />
 
         {/* Protected Routes */}
         <Route path="/" element={token ? <Layout setToken={setToken} setUser={setUser} /> : <Navigate to="/login" />}>
