@@ -8,17 +8,12 @@ const getBaseURL = () => {
   // we might want to hit a local backend or the production one.
   // For now, let's prioritize the environment variable if it exists.
   
-  if (import.meta.env.VITE_API_URL && import.meta.env.PROD) {
-    return import.meta.env.VITE_API_URL;
-  }
-  
-  // Default to production for deployed sites
-  if (hostname.includes('pages.dev') || hostname.includes('onrender.com')) {
-    return 'https://automated-banking-system.onrender.com/api';
+  // In production (Monolith Mode), we always use a relative path
+  if (import.meta.env.PROD) {
+    return '/api';
   }
   
   // If we're on a local IP (phone testing), try to hit the computer's backend
-  // But ONLY if we're not on HTTPS, because browsers block HTTPS -> HTTP local requests
   if (/^(\d{1,3}\.){3}\d{1,3}$/.test(hostname) || hostname === 'localhost') {
     const protocol = window.location.protocol;
     return `${protocol}//${hostname}:5000/api`;

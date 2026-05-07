@@ -6,53 +6,38 @@ const db = require('./database');
 const authRoutes = require('./routes/auth');
 const transactionRoutes = require('./routes/transactions');
 
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Configure CORS for local development and production
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:3000',
-  'http://localhost:5000',
-  'http://127.0.0.1:5173',
-  'http://127.0.0.1:3000',
-  'http://127.0.0.1:5000',
-  'https://abs-atv.pages.dev',
-];
-
+// Handle CORS (still useful for local dev)
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    const isAllowed = allowedOrigins.some(ao => origin.startsWith(ao)) || 
-                     origin.includes('pages.dev') || 
-                     origin.includes('onrender.com');
-    if (isAllowed) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  optionsSuccessStatus: 200
+  origin: true,
+  credentials: true
 };
-
-// Handle Private Network Access preflights
-app.use((req, res, next) => {
-  if (req.headers['access-control-request-private-network']) {
-    res.setHeader('Access-Control-Allow-Private-Network', 'true');
-  }
-  next();
-});
-
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.get('/', (req, res) => {
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/transactions', transactionRoutes);
+
+// SERVE FRONTEND (Monolith Mode)
+// This serves the built frontend files from the 'frontend/dist' folder
+const frontendPath = path.join(__dirname, '../frontend/dist');
+app.use(express.static(frontendPath));
+
+// Health check
+app.get('/health', (req, res) => {
     res.json({ message: 'ABS backend is running' });
 });
 
-app.use('/api/auth', authRoutes);
-app.use('/api/transactions', transactionRoutes);
+// SPA Routing: Send index.html for any non-API routes
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  }
+});
 
 // Global Error Handler
 app.use((err, req, res, next) => {
